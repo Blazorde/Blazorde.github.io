@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pour Maya 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    :root {
+      --rose: #e8264a;
+      --rose-deep: #c01038;
+      --rose-light: #f9afc0;
+      --cream: #fff5f7;
+      --gold: #d4a853;
+      --text: #3a1020;
+    }
+ 
+    body {
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: 'Cormorant Garamond', serif;
+      cursor: default;
+    }
+ 
+    /* Pétales de fond */
+    .petals-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+ 
+    .petal {
+      position: absolute;
+      width: 10px;
+      height: 14px;
+      background: radial-gradient(ellipse at 30% 30%, #f9c4d2, #e8264a55);
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+ 
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+ 
+    /* Scène principale */
+    .scene {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+    }
+ 
+    /* Conteneur cœur */
+    .heart-wrapper {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      cursor: pointer;
+    }
+ 
+    /* SVG cœur animé */
+    .heart-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 8px 32px #e8264a66);
+      transition: filter 0.4s;
+    }
+ 
+    .heart-wrapper:hover .heart-svg {
+      filter: drop-shadow(0 12px 48px #e8264aaa);
+    }
+ 
+    /* Demi-gauche */
+    .half-left {
+      transform-origin: right center;
+      transform-box: fill-box;
+      animation: none;
+    }
+ 
+    /* Demi-droite */
+    .half-right {
+      transform-origin: left center;
+      transform-box: fill-box;
+      animation: none;
+    }
+ 
+    /* Quand ouvert */
+    .heart-wrapper.opened .half-left {
+      animation: openLeft 1.2s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    .heart-wrapper.opened .half-right {
+      animation: openRight 1.2s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+ 
+    @keyframes openLeft {
+      0%   { transform: rotateY(0deg); }
+      100% { transform: rotateY(-60deg); }
+    }
+    @keyframes openRight {
+      0%   { transform: rotateY(0deg); }
+      100% { transform: rotateY(60deg); }
+    }
+ 
+    /* Pulse avant ouverture */
+    .heart-wrapper:not(.opened) .heart-svg {
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.07); }
+    }
+ 
+    /* Texte intérieur */
+    .inner-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.8s 0.7s, transform 0.8s 0.7s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+      z-index: 5;
+    }
+ 
+    .heart-wrapper.opened .inner-text {
+      opacity: 1;
+      transform: scale(1);
+    }
+ 
+    .inner-text .je-taime {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--rose-deep);
+      letter-spacing: 0.05em;
+      text-shadow: 0 1px 8px #fff8;
+    }
+ 
+    .inner-text .maya {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--rose-deep);
+      letter-spacing: 0.12em;
+      text-shadow: 0 1px 8px #fff8;
+    }
+ 
+    /* Hint clic */
+    .hint {
+      font-size: 0.95rem;
+      color: #c0637880;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 300;
+      animation: blink 2s ease-in-out infinite;
+      transition: opacity 0.5s;
+    }
+    .hint.hidden { opacity: 0; pointer-events: none; }
+ 
+    @keyframes blink {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+ 
+    /* Grand texte du bas */
+    .main-message {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 1s 1.2s, transform 1s 1.2s ease;
+    }
+ 
+    .main-message.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+ 
+    .main-message .line1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.5rem;
+      color: #b04060;
+      letter-spacing: 0.08em;
+    }
+ 
+    .main-message .line2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 3.5rem;
+      color: var(--rose-deep);
+      letter-spacing: 0.05em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--rose-deep), var(--gold), var(--rose));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+ 
+    /* Particules cœurs volants */
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 20;
+    }
+ 
+    .fheart {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: 0;
+      animation: floatUp 3s ease-out forwards;
+    }
+ 
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(0.3) rotate(-15deg); opacity: 1; }
+      100% { transform: translateY(-180px) scale(1.1) rotate(15deg); opacity: 0; }
+    }
+ 
+    /* Bordure décorative */
+    .frame {
+      position: fixed;
+      inset: 20px;
+      border: 1px solid #e8264a22;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .frame::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px solid #e8264a11;
+    }
+ 
+    /* Coins ornementaux */
+    .corner {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    .corner svg { width: 100%; height: 100%; }
+    .c-tl { top: 14px; left: 14px; }
+    .c-tr { top: 14px; right: 14px; transform: scaleX(-1); }
+    .c-bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+    .c-br { bottom: 14px; right: 14px; transform: scale(-1); }
+  </style>
+</head>
+<body>
+ 
+<!-- Bordure décorative -->
+<div class="frame"></div>
+<div class="corner c-tl"><svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4 L4 30 Q4 4 30 4 Z" stroke="#e8264a" stroke-width="1.5" fill="none"/><path d="M4 4 Q20 4 20 20" stroke="#d4a853" stroke-width="1" fill="none"/><circle cx="4" cy="4" r="2" fill="#e8264a"/></svg></div>
+<div class="corner c-tr"><svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4 L4 30 Q4 4 30 4 Z" stroke="#e8264a" stroke-width="1.5" fill="none"/><path d="M4 4 Q20 4 20 20" stroke="#d4a853" stroke-width="1" fill="none"/><circle cx="4" cy="4" r="2" fill="#e8264a"/></svg></div>
+<div class="corner c-bl"><svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4 L4 30 Q4 4 30 4 Z" stroke="#e8264a" stroke-width="1.5" fill="none"/><path d="M4 4 Q20 4 20 20" stroke="#d4a853" stroke-width="1" fill="none"/><circle cx="4" cy="4" r="2" fill="#e8264a"/></svg></div>
+<div class="corner c-br"><svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4 L4 30 Q4 4 30 4 Z" stroke="#e8264a" stroke-width="1.5" fill="none"/><path d="M4 4 Q20 4 20 20" stroke="#d4a853" stroke-width="1" fill="none"/><circle cx="4" cy="4" r="2" fill="#e8264a"/></svg></div>
+ 
+<!-- Pétales -->
+<div class="petals-bg" id="petals"></div>
+ 
+<!-- Cœurs volants -->
+<div class="floating-hearts" id="floatingHearts"></div>
+ 
+<!-- Scène -->
+<div class="scene">
+ 
+  <div class="heart-wrapper" id="heart">
+    <svg class="heart-svg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#f77fa0"/>
+          <stop offset="100%" style="stop-color:#c01038"/>
+        </linearGradient>
+        <linearGradient id="gRight" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#f77fa0"/>
+          <stop offset="100%" style="stop-color:#c01038"/>
+        </linearGradient>
+        <filter id="innerShadow">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#7a001a" flood-opacity="0.4"/>
+        </filter>
+      </defs>
+ 
+      <!-- Demi-cœur gauche -->
+      <g class="half-left">
+        <path d="M100 160 C100 160 10 100 10 55 C10 25 35 10 60 18 C75 23 90 38 100 55 L100 160Z"
+              fill="url(#gLeft)" filter="url(#innerShadow)"/>
+        <!-- Reflet -->
+        <path d="M40 25 Q55 18 65 30" stroke="white" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.35"/>
+      </g>
+ 
+      <!-- Demi-cœur droit -->
+      <g class="half-right">
+        <path d="M100 160 C100 160 190 100 190 55 C190 25 165 10 140 18 C125 23 110 38 100 55 L100 160Z"
+              fill="url(#gRight)" filter="url(#innerShadow)"/>
+        <path d="M160 25 Q145 18 135 30" stroke="white" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.35"/>
+      </g>
+    </svg>
+ 
+    <!-- Texte intérieur affiché à l'ouverture -->
+    <div class="inner-text">
+      <span class="je-taime">je t'aime</span>
+      <span class="maya">Maya</span>
+    </div>
+  </div>
+ 
+  <p class="hint" id="hint">✦ touche le cœur ✦</p>
+ 
+  <div class="main-message" id="mainMsg">
+    <div class="line1">pour toi, pour toujours</div>
+    <div class="line2">Je t'aime Maya</div>
+  </div>
+ 
+</div>
+ 
+<script>
+  // Pétales
+  const petalsBg = document.getElementById('petals');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.top = -(Math.random() * 40) + 'px';
+    p.style.animationDuration = (6 + Math.random() * 10) + 's';
+    p.style.animationDelay = (Math.random() * 12) + 's';
+    p.style.transform = `rotate(${Math.random()*60}deg) scale(${0.7+Math.random()*0.8})`;
+    petalsBg.appendChild(p);
+  }
+ 
+  // Ouverture du cœur
+  const heart = document.getElementById('heart');
+  const hint  = document.getElementById('hint');
+  const mainMsg = document.getElementById('mainMsg');
+  const fhContainer = document.getElementById('floatingHearts');
+ 
+  let opened = false;
+ 
+  heart.addEventListener('click', () => {
+    if (opened) return;
+    opened = true;
+ 
+    heart.classList.add('opened');
+    hint.classList.add('hidden');
+ 
+    setTimeout(() => {
+      mainMsg.classList.add('visible');
+    }, 800);
+ 
+    // Cœurs volants
+    spawnHearts();
+  });
+ 
+  function spawnHearts() {
+    const emojis = ['💕','❤️','🌹','💗','✨','💖'];
+    const rect = heart.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+ 
+    for (let i = 0; i < 18; i++) {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.className = 'fheart';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = (cx + (Math.random() - 0.5) * 120) + 'px';
+        el.style.top  = (cy + (Math.random() - 0.5) * 60) + 'px';
+        el.style.fontSize = (1 + Math.random() * 1.4) + 'rem';
+        el.style.animationDuration = (2 + Math.random() * 2) + 's';
+        fhContainer.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }, i * 80);
+    }
+ 
+    // Relance quelques salves
+    setTimeout(spawnHearts2, 1500);
+  }
+ 
+  function spawnHearts2() {
+    const emojis = ['💕','💗','💖','🌸','✨'];
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.className = 'fheart';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = (Math.random() * window.innerWidth) + 'px';
+        el.style.top  = (Math.random() * window.innerHeight * 0.8 + window.innerHeight * 0.1) + 'px';
+        el.style.fontSize = (0.8 + Math.random() * 1) + 'rem';
+        el.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+        fhContainer.appendChild(el);
+        setTimeout(() => el.remove(), 4500);
+      }, i * 120);
+    }
+  }
+</script>
+</body>
+</html>

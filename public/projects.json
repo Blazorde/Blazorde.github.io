@@ -1,0 +1,61 @@
+{
+  "projects": [
+    {
+      "id": "beeasy",
+      "name": "Beeasy",
+      "desc": "Projet web Ydays avec une direction artistique forte, une interface moderne et une logique produit autour de l'organisation.",
+      "tags": ["Next.js", "Web", "Ydays", "UI"],
+      "family": "school",
+      "category": "Web",
+      "githubUrl": "https://github.com/YnovToulouseProjectPerso",
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80",
+      "accent": "from-blue-400/80 to-sky-500/80",
+      "isPrivate": true,
+      "requestAccessUrl": "mailto:jules.demetezizard@ynov.com?subject=Demande%20d%27acc%C3%A8s%20GitHub%20-%20Beeasy",
+      "updatedAt": null
+    },
+    {
+      "id": "terminal-rust",
+      "name": "terminal_rust",
+      "desc": "Mini terminal en Rust inspiré d'un shell Bash, pensé comme un outil de ligne de commande.",
+      "tags": ["Rust", "CLI", "Shell", "Back-end"],
+      "family": "personal",
+      "category": "Back-end",
+      "githubUrl": "https://github.com/Blazorde/terminal_rust",
+      "image": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=600&q=80",
+      "accent": "from-emerald-400/80 to-blue-500/80",
+      "isPrivate": false,
+      "requestAccessUrl": "mailto:jules.demetezizard@ynov.com?subject=Demande%20d%27acc%C3%A8s%20GitHub%20-%20terminal_rust",
+      "updatedAt": null
+    },
+    {
+      "id": "skyjo",
+      "name": "Skyjo",
+      "desc": "Projet de jeu autour de Skyjo, avec une logique de règles, de tours et d'état de partie.",
+      "tags": ["Jeu", "POO", "École"],
+      "family": "school",
+      "category": "POO",
+      "githubUrl": "https://github.com/YnovToulouseProjectPerso",
+      "image": "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=600&q=80",
+      "accent": "from-indigo-400/80 to-blue-500/80",
+      "isPrivate": true,
+      "requestAccessUrl": "mailto:jules.demetezizard@ynov.com?subject=Demande%20d%27acc%C3%A8s%20GitHub%20-%20Skyjo",
+      "updatedAt": null
+    },
+    {
+      "id": "netflix-light",
+      "name": "Netflix_Light",
+      "desc": "Projet web inspiré de Netflix pour pratiquer JavaScript et les appels API GET/POST.",
+      "tags": ["JavaScript", "API", "Web", "École"],
+      "family": "school",
+      "category": "Web",
+      "githubUrl": "https://github.com/YnovToulouseProjectPerso/Netflix_Light",
+      "image": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=600&q=80",
+      "accent": "from-red-400/80 to-orange-500/80",
+      "isPrivate": false,
+      "requestAccessUrl": "mailto:jules.demetezizard@ynov.com?subject=Demande%20d%27acc%C3%A8s%20GitHub%20-%20Netflix_Light",
+      "updatedAt": null
+    }
+  ],
+  "canReadPrivateRepos": false
+}
